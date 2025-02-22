@@ -1,8 +1,7 @@
-
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import DataCard from '@/components/DataCard';
-import { BookOpen, Globe, Database, Archive } from 'lucide-react';
+import { BookOpen, Globe, Database, Archive, Video } from 'lucide-react';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -31,6 +30,12 @@ const Index = () => {
       title: 'Digital Library',
       description: 'Access curated collections and rare manuscripts',
       icon: <BookOpen className="text-amber-500" />
+    },
+    {
+      id: 'video-chat',
+      title: 'AI Video Chat',
+      description: 'Have an interactive conversation with an AI assistant',
+      icon: <Video className="text-purple-500" />
     }
   ];
 
@@ -49,39 +54,33 @@ const Index = () => {
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl mb-4">
             Explore Data Stories
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Embark on an interactive journey through our collections. Each dataset tells a unique story waiting to be discovered.
+          <p className="text-lg text-gray-600">
+            Discover and interact with our digital collections
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-          {datasets.map((dataset, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {datasets.map((dataset) => (
             <motion.div
               key={dataset.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => {
+                if (dataset.id === 'video-chat') {
+                  navigate('/video-chat');
+                } else {
+                  navigate(`/dataset/${dataset.id}`);
+                }
+              }}
             >
               <DataCard
                 title={dataset.title}
                 description={dataset.description}
                 icon={dataset.icon}
-                onClick={() => navigate(`/dataset/${dataset.id}`)}
               />
             </motion.div>
           ))}
         </div>
-
-        <motion.div
-          className="mt-16 text-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-        >
-          <p className="text-sm text-gray-500">
-            Click on any collection to begin your exploration
-          </p>
-        </motion.div>
       </div>
     </div>
   );
