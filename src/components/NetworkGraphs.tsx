@@ -1,31 +1,34 @@
+
 // src/components/NetworkGraph.js
 import React from 'react';
 import ForceGraph2D from 'react-force-graph-2d';
 
 const NetworkGraph = ({ data }) => {
-  // Build nodes and links from data
+  // Build nodes and links from taxonomy relationships
   const nodesMap = {};
   const links = [];
 
   data.forEach(item => {
-    const runaway = item['Name of Runaway'];
-    const owner = item['Owner of Runaway'];
-    const apprehender = item['Apprehender'];
+    const family = item.family;
+    const genus = item.genus;
+    const species = item.species;
 
-    if (runaway && !nodesMap[runaway]) {
-      nodesMap[runaway] = { id: runaway, group: 'Runaway' };
+    if (family && !nodesMap[family]) {
+      nodesMap[family] = { id: family, group: 'Family' };
     }
-    if (owner && !nodesMap[owner]) {
-      nodesMap[owner] = { id: owner, group: 'Owner' };
+    if (genus && !nodesMap[genus]) {
+      nodesMap[genus] = { id: genus, group: 'Genus' };
     }
-    if (apprehender && !nodesMap[apprehender]) {
-      nodesMap[apprehender] = { id: apprehender, group: 'Apprehender' };
+    if (species && !nodesMap[species]) {
+      nodesMap[species] = { id: species, group: 'Species' };
     }
-    if (runaway && owner) {
-      links.push({ source: runaway, target: owner });
+
+    // Create taxonomic relationships
+    if (family && genus) {
+      links.push({ source: genus, target: family });
     }
-    if (runaway && apprehender) {
-      links.push({ source: runaway, target: apprehender });
+    if (genus && species) {
+      links.push({ source: species, target: genus });
     }
   });
 
@@ -34,11 +37,11 @@ const NetworkGraph = ({ data }) => {
     links: links,
   };
 
-  // Optional: color nodes by group
+  // Color nodes by taxonomic level
   const colorMap = {
-    'Runaway': '#e74c3c',      // red
-    'Owner': '#3498db',        // blue
-    'Apprehender': '#2ecc71'   // green
+    'Family': '#e74c3c',    // red
+    'Genus': '#3498db',     // blue
+    'Species': '#2ecc71'    // green
   };
 
   return (
@@ -46,25 +49,20 @@ const NetworkGraph = ({ data }) => {
       <ForceGraph2D
         graphData={graphData}
         nodeAutoColorBy="group"
-        nodeCanvasObject={(node, ctx, globalScale) => {
-          const label = node.id;
+        nodeCanvasObject={(node: any, ctx: CanvasRenderingContext2D, globalScale: number) => {
+          const label = node.id as string;
           const fontSize = 12 / globalScale;
-          const nodeColor = colorMap[node.group] || 'gray';
-          // Draw node as circle
+          const nodeColor = colorMap[node.group as keyof typeof colorMap] || 'gray';
+          
           ctx.fillStyle = nodeColor;
           ctx.beginPath();
-          ctx.arc(node.x, node.y, 5, 0, 2 * Math.PI, false);
+          ctx.arc(node.x || 0, node.y || 0, 5, 0, 2 * Math.PI, false);
           ctx.fill();
-          // Draw node label
+          
           ctx.font = `${fontSize}px Sans-Serif`;
           ctx.fillStyle = 'black';
-          ctx.fillText(label, node.x + 6, node.y + 6);
-        }}
-        nodePointerAreaPaint={(node, color, ctx) => {
-          ctx.fillStyle = color;
-          ctx.beginPath();
-          ctx.arc(node.x, node.y, 8, 0, 2 * Math.PI, false);
-          ctx.fill();
+          ctx.textAlign = 'center';
+          ctx.fillText(label, (node.x || 0) + 6, (node.y || 0) + 6);
         }}
       />
     </div>

@@ -1,36 +1,62 @@
-// src/components/TimelineChart.js
+
 import React from 'react';
-import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
-import moment from 'moment';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer
+} from 'recharts';
 
 const TimelineChart = ({ data }) => {
-  // Format and filter data for valid dates and fees
-  const formattedData = data.map(item => {
-    const date = moment(item['Date of Entry'], 'M/D/YYYY');
-    return {
-      ...item,
-      date: date.isValid() ? date.toDate() : null,
-      timestamp: date.isValid() ? date.valueOf() : null,
-      fee: typeof item['Fee Charged'] === 'string'
-        ? parseFloat(item['Fee Charged'].replace('$','')) || 0
-        : item['Fee Charged'] || 0,
-    };
-  }).filter(item => item.date);
+  // Process data to count specimens per year
+  const yearCounts = data.reduce((acc, item) => {
+    if (item.year) {
+      acc[item.year] = (acc[item.year] || 0) + 1;
+    }
+    return acc;
+  }, {});
 
-  // Sort by timestamp
-  const sortedData = formattedData.sort((a, b) => a.timestamp - b.timestamp);
+  // Convert to array format for Recharts
+  const chartData = Object.entries(yearCounts)
+    .map(([year, count]) => ({
+      year: parseInt(year),
+      specimens: count
+    }))
+    .sort((a, b) => a.year - b.year);
 
   return (
-    <LineChart width={800} height={300} data={sortedData}>
-      <XAxis
-        dataKey="date"
-        tickFormatter={(date) => moment(date).format('MM/DD/YYYY')}
-      />
-      <YAxis />
-      <Tooltip labelFormatter={(value) => moment(value).format('MM/DD/YYYY')} />
-      <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
-      <Line type="monotone" dataKey="fee" stroke="#8884d8" />
-    </LineChart>
+    <div style={{ width: '100%', height: 400 }}>
+      <ResponsiveContainer>
+        <LineChart
+          data={chartData}
+          margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis
+            dataKey="year"
+            label={{ value: 'Collection Year', position: 'bottom' }}
+          />
+          <YAxis
+            label={{ 
+              value: 'Number of Specimens',
+              angle: -90,
+              position: 'left'
+            }}
+          />
+          <Tooltip />
+          <Line
+            type="monotone"
+            dataKey="specimens"
+            stroke="#2ecc71"
+            strokeWidth={2}
+            dot={{ fill: '#2ecc71' }}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
   );
 };
 
