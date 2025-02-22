@@ -1,11 +1,11 @@
 
-import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import DataCard from '@/components/DataCard';
 import { BookOpen, Globe, Database, Archive } from 'lucide-react';
 
 const Index = () => {
-  const [selectedDataset, setSelectedDataset] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const datasets = [
     {
@@ -66,7 +66,7 @@ const Index = () => {
                 title={dataset.title}
                 description={dataset.description}
                 icon={dataset.icon}
-                onClick={() => setSelectedDataset(dataset.id)}
+                onClick={() => navigate(`/dataset/${dataset.id}`)}
               />
             </motion.div>
           ))}
