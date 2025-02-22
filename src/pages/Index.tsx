@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import DataCard from '@/components/DataCard';
-import { BookOpen, Globe, Database, Archive, Video } from 'lucide-react';
+import { BookOpen, Globe, Database, Archive, Video, Clock } from 'lucide-react';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -35,7 +35,15 @@ const Index = () => {
       id: 'video-chat',
       title: 'AI Video Chat',
       description: 'Have an interactive conversation with an AI assistant',
-      icon: <Video className="text-purple-500" />
+      icon: <Video className="text-purple-500" />,
+      route: '/video-chat'
+    },
+    {
+      id: 'timeline',
+      title: 'Interactive Timeline',
+      description: 'Explore key events with an interactive timeline',
+      icon: <Clock className="text-orange-500" />,
+      route: '/timeline'
     }
   ];
 
@@ -66,8 +74,8 @@ const Index = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => {
-                if (dataset.id === 'video-chat') {
-                  navigate('/video-chat');
+                if (dataset.route) {
+                  navigate(dataset.route);
                 } else {
                   navigate(`/dataset/${dataset.id}`);
                 }
