@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -6,6 +5,7 @@ import { ArrowLeft, Filter, Download, Share2, Leaf, Search, Bird, TreePine } fro
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { toast } from 'sonner';
+import PlantMatchingGame from '@/components/PlantMatchingGame';
 
 const DatasetViewer = () => {
   const { type } = useParams();
@@ -203,18 +203,7 @@ const DatasetViewer = () => {
               )}
 
               {activeView === 'quiz' && (
-                <Card className="p-8 max-w-2xl mx-auto bg-white/90">
-                  <h2 className="text-2xl font-bold text-center mb-6">Plant Quiz Challenge!</h2>
-                  <p className="text-center text-gray-600 mb-8">
-                    Test your knowledge about the amazing world of plants!
-                  </p>
-                  <Button 
-                    className="w-full"
-                    onClick={() => toast.info("Quiz feature coming soon! Keep exploring to learn more!")}
-                  >
-                    Start Quiz
-                  </Button>
-                </Card>
+                <PlantMatchingGame />
               )}
             </motion.div>
           </AnimatePresence>
