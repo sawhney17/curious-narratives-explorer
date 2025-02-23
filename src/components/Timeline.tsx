@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import TimelineEvent from "./TimelineEvent";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import AIHelper from "./AIHelper";
 
 interface TimelineEventData {
   date: string;
@@ -157,8 +158,35 @@ export default function Timeline() {
         </motion.div>
       </div>
 
-      <Dialog open={selectedEvent !== null} onOpenChange={(open) => !open && setSelectedEvent(null)}>
-        <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto my-8">
+      <Dialog 
+        open={selectedEvent !== null} 
+        onOpenChange={(open) => {
+          if (!open && selectedEvent) {
+            setSelectedEvent(null);
+          }
+        }}
+        modal={false}
+      >
+        {selectedEvent && (
+          <div className="fixed inset-0 bg-black/40 z-[140]" aria-hidden="true" />
+        )}
+        <DialogContent 
+          className="fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] max-w-3xl max-h-[85vh] overflow-y-auto z-[145]"
+          onPointerDownOutside={(e) => {
+            // Check if the click is on the AI Helper
+            const target = e.target as HTMLElement;
+            if (target.closest('[data-ai-helper="true"]')) {
+              e.preventDefault();
+            }
+          }}
+          onInteractOutside={(e) => {
+            // Check if the interaction is with the AI Helper
+            const target = e.target as HTMLElement;
+            if (target.closest('[data-ai-helper="true"]')) {
+              e.preventDefault();
+            }
+          }}
+        >
           <DialogHeader className="space-y-4">
             <div className="flex justify-between items-center mb-2">
               <span className="inline-block rounded-full bg-emerald-100 px-2 py-1 text-sm font-medium text-emerald-800">
@@ -239,6 +267,10 @@ export default function Timeline() {
           </DialogHeader>
         </DialogContent>
       </Dialog>
+
+      <div className="relative z-[200]">
+        <AIHelper currentEvent={selectedEvent} />
+      </div>
     </>
   );
 }

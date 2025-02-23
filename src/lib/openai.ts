@@ -52,7 +52,7 @@ export async function getChatResponse(userMessage: string, previousMessages: Cha
       });
 
       console.log('OpenAI response:', completion.choices[0].message);
-      return completion.choices[0].message;
+      return completion.choices[0].message.content;
     } catch (error: any) {
       console.error(`Error with model ${model}:`, error.message);
       lastError = error;
