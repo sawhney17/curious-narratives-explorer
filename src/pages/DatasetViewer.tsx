@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Filter, Download, Share2, Leaf, Search, Bird, TreePine } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -135,14 +135,16 @@ const DatasetViewer = () => {
                     </div>
                   </Card>
                   
-                  <Card className="p-6 bg-white/90 hover:bg-white transition-colors cursor-pointer"
-                        onClick={() => earnAchievement('detective')}>
-                    <div className="flex flex-col items-center text-center space-y-4">
-                      <Search className="w-12 h-12 text-emerald-500" />
-                      <h3 className="text-xl font-semibold">Plant Explorer</h3>
-                      <p className="text-gray-600">Search for plants and discover their stories!</p>
-                    </div>
-                  </Card>
+                  <Link to="/plant-story">
+                    <Card className="p-6 bg-white/90 hover:bg-white transition-colors cursor-pointer"
+                          onClick={() => earnAchievement('detective')}>
+                      <div className="flex flex-col items-center text-center space-y-4">
+                        <Search className="w-12 h-12 text-emerald-500" />
+                        <h3 className="text-xl font-semibold">Plant Explorer</h3>
+                        <p className="text-gray-600">Search for plants and discover their stories!</p>
+                      </div>
+                    </Card>
+                  </Link>
 
                   <Card className="p-6 bg-white/90 hover:bg-white transition-colors cursor-pointer">
                     <div className="flex flex-col items-center text-center space-y-4">

@@ -11,6 +11,7 @@ import MultipleChoiceQuizPage from "@/pages/MultipleChoiceQuizPage";
 import Dashboard from "./pages/Dashboard";
 import CSVLoader from "./components/CSVLoader";
 import { useState } from "react";
+import PlantStory from '@/components/PlantStory';
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,7 @@ const App = () => {
                 </div>
               }
             />
+            <Route path="/plant-story" element={<PlantStory />} />
             <Route path="/video-chat" element={<VideoChat />} />
             <Route path="/timeline" element={<Timeline />} />
             <Route path="/quiz" element={<TimelineQuiz />} />
