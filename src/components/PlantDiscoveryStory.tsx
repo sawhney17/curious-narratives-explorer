@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
-import { Leaf, Tree, Sprout, ChevronRight, ChevronLeft } from 'lucide-react';
+import { Leaf, TreePine, Sprout, ChevronRight, ChevronLeft } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface TaxonomyLevel {
@@ -18,7 +18,7 @@ const taxonomyJourney: TaxonomyLevel[] = [
   {
     name: "Kingdom Plantae",
     description: "Welcome to the plant kingdom! This is where all plants belong, from tiny mosses to giant sequoias.",
-    icon: <Tree className="w-8 h-8 text-emerald-600" />,
+    icon: <TreePine className="w-8 h-8 text-emerald-600" />,
     funFact: "Plants have been on Earth for about 500 million years!",
     image: "photo-1426604966848-d7adac402bff"
   },
