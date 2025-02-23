@@ -1,4 +1,3 @@
-import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -7,6 +6,8 @@ import DatasetViewer from "@/pages/DatasetViewer";
 import NotFound from "@/pages/NotFound";
 import VideoChat from "@/pages/VideoChat/VideoChat";
 import Timeline from "@/pages/Timeline/Timeline";
+import TimelineQuiz from "@/pages/TimelineQuiz";
+import MultipleChoiceQuizPage from "@/pages/MultipleChoiceQuizPage";
 import Dashboard from "./pages/Dashboard";
 import CSVLoader from "./components/CSVLoader";
 import { useState } from "react";
@@ -20,7 +21,6 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Toaster position="top-right" />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
@@ -40,6 +40,8 @@ const App = () => {
             />
             <Route path="/video-chat" element={<VideoChat />} />
             <Route path="/timeline" element={<Timeline />} />
+            <Route path="/quiz" element={<TimelineQuiz />} />
+            <Route path="/multiple-choice" element={<MultipleChoiceQuizPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

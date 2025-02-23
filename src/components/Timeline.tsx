@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import TimelineEvent from "./TimelineEvent";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 interface TimelineEventData {
   date: string;
@@ -208,18 +209,31 @@ export default function Timeline() {
                   disabled={currentEventIndex <= 0}
                   className="flex items-center gap-2"
                 >
-                  <ChevronLeft className="h-4 w-4" />
+                  <ChevronLeft className="w-4 h-4" />
                   Previous Event
                 </Button>
-                <Button
-                  variant="outline"
-                  onClick={goToNextEvent}
-                  disabled={currentEventIndex >= timelineEvents.length - 1}
-                  className="flex items-center gap-2"
-                >
-                  Next Event
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
+                {currentEventIndex >= timelineEvents.length - 1 ? (
+                  <Link to="/quiz">
+                    <Button
+                      className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold flex items-center gap-2"
+                    >
+                      Take the Quiz!
+                      <span className="inline-block rounded-full bg-emerald-400 px-2 py-1 text-xs font-medium">
+                        Test your knowledge
+                      </span>
+                    </Button>
+                  </Link>
+                ) : (
+                  <Button
+                    variant="outline"
+                    onClick={goToNextEvent}
+                    disabled={currentEventIndex >= timelineEvents.length - 1}
+                    className="flex items-center gap-2"
+                  >
+                    Next Event
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                )}
               </div>
             </DialogDescription>
           </DialogHeader>
