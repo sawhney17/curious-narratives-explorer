@@ -10,9 +10,19 @@ import {
   ResponsiveContainer
 } from 'recharts';
 
-const FeeAnalysisChart = ({ data }) => {
+interface SpecimenData {
+  family?: string;
+  [key: string]: any;
+}
+
+interface ChartDataPoint {
+  family: string;
+  specimens: number;
+}
+
+const FeeAnalysisChart = ({ data }: { data: SpecimenData[] }) => {
   // Count specimens by family
-  const familyCounts = data.reduce((acc, item) => {
+  const familyCounts = data.reduce((acc: { [key: string]: number }, item) => {
     if (item.family) {
       acc[item.family] = (acc[item.family] || 0) + 1;
     }
@@ -20,7 +30,7 @@ const FeeAnalysisChart = ({ data }) => {
   }, {});
 
   // Convert to array and sort by count
-  const chartData = Object.entries(familyCounts)
+  const chartData: ChartDataPoint[] = Object.entries(familyCounts)
     .map(([family, count]) => ({
       family,
       specimens: count

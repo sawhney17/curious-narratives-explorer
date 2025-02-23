@@ -1,3 +1,4 @@
+
 import { useState, useCallback, useRef } from 'react';
 
 interface SpeechRecognition extends EventTarget {
@@ -23,6 +24,7 @@ export const useSpeechRecognition = () => {
         recognitionRef.current = new SpeechRecognition();
         recognitionRef.current.continuous = true;
         recognitionRef.current.interimResults = true;
+        // @ts-expect-error - lang property exists at runtime but not in type definition
         recognitionRef.current.lang = 'en-US';
 
         recognitionRef.current.onresult = (event: any) => {
