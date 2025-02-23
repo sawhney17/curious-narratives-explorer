@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { toast } from 'sonner';
 import PlantMatchingGame from '@/components/PlantMatchingGame';
+import PlantDiscoveryStory from '@/components/PlantDiscoveryStory';
 
 const DatasetViewer = () => {
   const { type } = useParams();
@@ -120,56 +121,7 @@ const DatasetViewer = () => {
               transition={{ duration: 0.3 }}
             >
               {activeView === 'story' && (
-                <div className="max-w-4xl mx-auto">
-                  <Card className="p-8 bg-white/90 backdrop-blur-sm">
-                    <motion.div
-                      key={currentStory.id}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="space-y-6"
-                    >
-                      <h2 className="text-2xl font-bold text-emerald-800">{currentStory.title}</h2>
-                      <img 
-                        src={`https://images.unsplash.com/${currentStory.image}`}
-                        alt={currentStory.title}
-                        className="w-full h-64 object-cover rounded-lg shadow-lg"
-                      />
-                      <p className="text-lg text-gray-700">{currentStory.description}</p>
-                      
-                      <div className="bg-emerald-50 p-4 rounded-lg">
-                        <h3 className="font-semibold text-emerald-800 mb-2">🌟 Fun Fact!</h3>
-                        <p>{currentStory.funFact}</p>
-                      </div>
-
-                      <div className="bg-amber-50 p-4 rounded-lg">
-                        <h3 className="font-semibold text-amber-800 mb-2">🤔 Think About It</h3>
-                        <p>{currentStory.question}</p>
-                      </div>
-
-                      <div className="flex justify-between mt-8">
-                        <Button
-                          variant="outline"
-                          onClick={() => {
-                            setCurrentStoryIndex(prev => Math.max(0, prev - 1));
-                            earnAchievement('explorer');
-                          }}
-                          disabled={currentStoryIndex === 0}
-                        >
-                          Previous Story
-                        </Button>
-                        <Button
-                          onClick={() => {
-                            setCurrentStoryIndex(prev => Math.min(herbariaStories.length - 1, prev + 1));
-                            earnAchievement('explorer');
-                          }}
-                          disabled={currentStoryIndex === herbariaStories.length - 1}
-                        >
-                          Next Story
-                        </Button>
-                      </div>
-                    </motion.div>
-                  </Card>
-                </div>
+                <PlantDiscoveryStory />
               )}
 
               {activeView === 'explore' && (
